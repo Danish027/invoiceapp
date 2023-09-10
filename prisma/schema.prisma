@@ -1,0 +1,131 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// npm i prisma
+// npx prisma init
+// npx prisma db push
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int       @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  email          String    @unique
+  hashedPassword String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  companyId      Int?
+  company        Company?  
+  invoices            Invoice[] 
+  estimates           Estimate[]
+  customers           Customer[]
+  products            Product[]
+}
+
+model Company {
+  id                  Int       @id @default(autoincrement())
+  userId              Int       @unique
+  name                String
+  email               String
+  mobileNumber        String
+  addressLine1        String
+  addressLine2        String
+  state               String
+  gstin               String    
+  panNumber           String    
+  declaration         String
+  note                String
+  bankName            String
+  accountNumber       String
+  bankBranch          String
+  ifscCode            String
+  currentInvoiceNumber Int
+  currentEstimateNumber Int
+  invoiceFormat      String   
+  user                User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Invoice {
+  id              Int       @id @default(autoincrement())
+  invoiceNumber   String    
+  invoiceType     String
+  date            DateTime
+  vehicleNumber   String?
+  userId           Int       
+  customerId      Int   
+  optionalField   Json?    
+  additinalCharges Json?
+  discount        Json?
+  taxableAmount   Int
+  paymentStatus   String
+  items          InvoiceItem[]
+  user             User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+model InvoiceItem {
+  id        Int       @id @default(autoincrement())
+  description      String
+  hsncode   String
+  quantity  Int
+  unit      String
+  rate      Float
+  amount    Float
+  invoiceId Int
+  invoice   Invoice   @relation(fields: [invoiceId], references: [id])
+}
+
+model Estimate {
+  id              Int       @id @default(autoincrement())
+  estimateNumber String    
+  date            DateTime
+  vehicleNumber   String?
+  optionalField   Json?
+  companyId       Int       
+  userId          Int       
+  additinalCharges Json?
+  discount        Json?
+  taxableAmount          Int
+  approvalStatus  String
+  user             User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items          EstimateItem[]
+}
+model EstimateItem {
+  id         Int       @id @default(autoincrement())
+  description       String
+  hsncode    String
+  quantity   Int
+  unit       String
+  rate       Int
+  amount     Int
+  estimateId Int
+  estimate   Estimate   @relation(fields: [estimateId], references: [id])
+}
+
+model Product {
+  id              Int       @id @default(autoincrement())
+  userId          Int       
+  description     String
+  hnsCode         String
+  quantity        Int
+  unit            String
+  rate            Int
+   user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Customer {
+  id              Int       @id @default(autoincrement())
+  userId          Int       
+  name            String
+  addressLine1    String
+  addressLine2    String
+  state           String
+  gstin           String    
+  user             User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
