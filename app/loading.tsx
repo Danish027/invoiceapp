@@ -1,6 +1,6 @@
 import React from "react";
 import "./globals.scss";
-const loading = () => {
+const Loading = () => {
   return (
     <div className="w-screen h-screen flex justify-center items-center relative">
       <div className="banter-loader">
@@ -18,4 +18,4 @@ const loading = () => {
   );
 };
 
-export default loading;
+export default Loading;

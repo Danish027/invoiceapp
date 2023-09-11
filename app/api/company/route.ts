@@ -1,10 +1,11 @@
 import { prisma } from "@/libs/prismadb";
-import getCurrentUser from "@/actions/getCurrentUser";
+import { currentUser } from "@clerk/nextjs";
+
 import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
-    const currentUser = await getCurrentUser();
-    if (!currentUser) {
+    const user = await currentUser();
+    if (!user) {
       return NextResponse.error();
     }
     let {
@@ -30,7 +31,7 @@ export async function POST(req: Request) {
     currentEstimateNumber = +currentEstimateNumber;
     const createdCompany = await prisma.company.create({
       data: {
-        userId: currentUser?.id,
+        userId: user?.id,
         name,
         email,
         mobileNumber,
@@ -60,22 +61,26 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-  const currentUser = await getCurrentUser();
+  try {
+    const user = await currentUser();
 
-  if (!currentUser) {
-    return null;
+    if (!user) {
+      return null;
+    }
+    const companyDetails = await prisma.company.findUnique({
+      where: {
+        userId: user.id,
+      },
+    });
+    return NextResponse.json(companyDetails);
+  } catch (err) {
+    console.error(err);
   }
-  const companyDetails = await prisma.company.findFirst({
-    where: {
-      userId: currentUser.id,
-    },
-  });
-  return NextResponse.json(companyDetails);
 }
 
 export async function PUT(req: Request) {
   try {
-    const currentUser = await getCurrentUser();
+    const user = await currentUser();
     let {
       name,
       email,
@@ -95,14 +100,14 @@ export async function PUT(req: Request) {
       currentEstimateNumber,
       invoiceFormat,
     } = await req.json();
-    if (!currentUser) {
+    if (!user) {
       return NextResponse.error();
     }
     currentInvoiceNumber = +currentInvoiceNumber;
     currentEstimateNumber = +currentEstimateNumber;
     const updatedDetails = await prisma.company.update({
       where: {
-        userId: currentUser.id,
+        userId: user.id,
       },
       data: {
         name,

@@ -15,11 +15,10 @@ datasource db {
 }
 
 model User {
-  id             Int       @id @default(autoincrement())
-  firstName      String
-  lastName       String
-  email          String    @unique
-  hashedPassword String?
+  id              Int       @id @default(autoincrement())
+  userId          String   @unique
+  name            String
+  email           String 
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   companyId      Int?
@@ -32,7 +31,7 @@ model User {
 
 model Company {
   id                  Int       @id @default(autoincrement())
-  userId              Int       @unique
+  userId              String       @unique
   name                String
   email               String
   mobileNumber        String
@@ -50,7 +49,7 @@ model Company {
   currentInvoiceNumber Int
   currentEstimateNumber Int
   invoiceFormat      String   
-  user                User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                User?     @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
 model Invoice {
@@ -59,7 +58,7 @@ model Invoice {
   invoiceType     String
   date            DateTime
   vehicleNumber   String?
-  userId           Int       
+  userId           String       
   customerId      Int   
   optionalField   Json?    
   additinalCharges Json?
@@ -67,7 +66,7 @@ model Invoice {
   taxableAmount   Int
   paymentStatus   String
   items          InvoiceItem[]
-  user             User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user             User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 model InvoiceItem {
   id        Int       @id @default(autoincrement())
@@ -88,12 +87,12 @@ model Estimate {
   vehicleNumber   String?
   optionalField   Json?
   companyId       Int       
-  userId          Int       
+  userId          String       
   additinalCharges Json?
   discount        Json?
   taxableAmount          Int
   approvalStatus  String
-  user             User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user             User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   items          EstimateItem[]
 }
 model EstimateItem {
@@ -110,22 +109,24 @@ model EstimateItem {
 
 model Product {
   id              Int       @id @default(autoincrement())
-  userId          Int       
+  userId          String       
   description     String
   hnsCode         String
   quantity        Int
   unit            String
   rate            Int
-   user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+   user           User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
 model Customer {
   id              Int       @id @default(autoincrement())
-  userId          Int       
+  userId          String       
   name            String
   addressLine1    String
   addressLine2    String
   state           String
   gstin           String    
-  user             User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user             User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
+
+

@@ -4,19 +4,20 @@ import React from "react";
 import "../globals.scss";
 import Sidebar from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
-import { SafeUser } from "@/schema/type";
 
 interface LayoutClientProps {
   children: React.ReactNode;
-  currentUser: SafeUser | null;
 }
 
-export const LayoutClient: React.FC<LayoutClientProps> = ({
-  children,
-  currentUser,
-}) => {
+export const LayoutClient: React.FC<LayoutClientProps> = ({ children }) => {
   const router = usePathname(); // get the router object
-  const hideSidebarForPaths = ["/estimates/", "/invoices/", "/auth", "/test"];
+  const hideSidebarForPaths = [
+    "/estimates/",
+    "/invoices/",
+    "/sign-up",
+    "/sign-in",
+    "/test",
+  ];
   const showSidebar = !hideSidebarForPaths.some((path) =>
     router.startsWith(path)
   );
@@ -24,7 +25,7 @@ export const LayoutClient: React.FC<LayoutClientProps> = ({
   if (showSidebar === true) {
     return (
       <>
-        <Sidebar showSidebar={showSidebar} currentUser={currentUser} />
+        <Sidebar showSidebar={showSidebar} />
         <div className="sm:ml-60">{children}</div>
       </>
     );

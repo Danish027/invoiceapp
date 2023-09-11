@@ -3,24 +3,25 @@ import Logo from "./Logo";
 import { HiOutlineArrowSmRight } from "react-icons/hi";
 import Link from "next/link";
 import { ModeToggle } from "@/components/ui/theme";
-import Button from "@/components/customeUI/mainPageUI/Button";
+
 import { Company, SafeUser } from "@/schema/type";
+import { SignInButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs/app-beta/client";
+import { Button } from "@/components/ui/button";
 
 const Header = ({
   dashboard,
   label,
-  currentUser,
 }: {
   dashboard?: boolean;
   label?: string;
-  currentUser?: SafeUser | null;
 }) => {
   if (dashboard)
     return (
       <div className="px-4 py-1 text-foreground tracking-wide font-bold border-b border-border flex justify-between items-center">
         <div>{label}</div>
         <div className="flex gap-2 items-center text-center">
-          {currentUser && <div>{currentUser.email}</div>}
+          <div>email</div>
           <ModeToggle />
         </div>
       </div>
@@ -57,9 +58,14 @@ const Header = ({
       "
         >
           <div className="hidden sm:inline">
-            <Link href="/auth">
-              <Button label="Get Started" icon={HiOutlineArrowSmRight} />
-            </Link>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            <SignedOut>
+              <SignInButton>
+                <Button>Sign In</Button>
+              </SignInButton>
+            </SignedOut>
           </div>
 
           <ModeToggle secondary />

@@ -1,21 +1,14 @@
-import getCurrentUser from "@/actions/getCurrentUser";
+import { initialProfile } from "@/libs/initialProfile";
 import ClientDashboard from "./ClientDashboard";
-import EmptyState from "@/components/customeUI/dashboardUI/EmptyState";
+import type { Metadata } from "next";
+import { currentUser } from "@clerk/nextjs";
 
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "...",
+};
 const Home = async () => {
-  const currentUser = await getCurrentUser();
-  if (currentUser === null) {
-    return (
-      <div className="w-full h-screen">
-        <EmptyState
-          title="Unauthorized"
-          subtitle="Please log in to access your dashboard."
-          showButton
-        />
-      </div>
-    );
-  }
-  return <ClientDashboard currentUser={currentUser} />;
+  return <ClientDashboard />;
 };
 
 export default Home;

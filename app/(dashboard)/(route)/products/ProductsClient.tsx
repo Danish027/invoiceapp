@@ -118,7 +118,6 @@ const ProductsClient = () => {
                 buttonSecondaryLabel="Cancel"
                 icon={BsCloudDownload}
                 onClick={() => {
-                  console.log(products);
                   downloadToExcelProducts(products);
                 }}
                 outline

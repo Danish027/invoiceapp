@@ -97,7 +97,6 @@ const CustomerClient = () => {
                 icon={BsCloudDownload}
                 outline
                 onClick={() => {
-                  console.log(customers);
                   downloadToExcelCustomer(customers);
                 }}
               />

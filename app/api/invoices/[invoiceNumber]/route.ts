@@ -1,5 +1,5 @@
-import getCurrentUser from "@/actions/getCurrentUser";
 import { prisma } from "@/libs/prismadb";
+import { currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 interface IParams {
   invoiceNumber?: number;
@@ -7,17 +7,17 @@ interface IParams {
 
 export async function GET(request: Request, { params }: { params: IParams }) {
   try {
-    const currentUser = await getCurrentUser();
+    const user = await currentUser();
     const { invoiceNumber } = params;
 
-    if (!currentUser) {
+    if (!user) {
       return NextResponse.error();
     }
 
     const number = String(invoiceNumber);
     const updatedDetails = await prisma.invoice.findFirst({
       where: {
-        userId: currentUser.id,
+        userId: user.id,
         invoiceNumber: number,
       },
       include: {
@@ -36,8 +36,8 @@ export async function GET(request: Request, { params }: { params: IParams }) {
 
 export async function PUT(req: Request) {
   try {
-    const currentUser = await getCurrentUser();
-    if (!currentUser) {
+    const user = await currentUser();
+    if (!user) {
       return NextResponse.error();
     }
     let { invoiceData, items, customerId } = await req.json();

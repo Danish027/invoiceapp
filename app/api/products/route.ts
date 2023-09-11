@@ -1,17 +1,18 @@
 import { prisma } from "@/libs/prismadb";
-import getCurrentUser from "@/actions/getCurrentUser";
+import { currentUser } from "@clerk/nextjs";
+
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const currentUser = await getCurrentUser();
-    if (!currentUser) {
+    const user = await currentUser();
+    if (!user) {
       return NextResponse.error();
     }
     const { description, hnsCode, quantity, rate, unit } = await req.json();
     const cretedCustomer = await prisma.product.create({
       data: {
-        userId: currentUser.id,
+        userId: user?.id,
         description,
         hnsCode,
         quantity,
@@ -30,14 +31,14 @@ export async function POST(req: Request) {
 
 export async function GET() {
   try {
-    const currentUser = await getCurrentUser();
+    const user = await currentUser();
 
-    if (!currentUser) {
+    if (!user) {
       return NextResponse.error();
     }
     const fetchedProducts = await prisma.product.findMany({
       where: {
-        userId: currentUser.id,
+        userId: user.id,
       },
       orderBy: {
         description: "asc",
@@ -54,8 +55,8 @@ export async function GET() {
 
 export async function PUT(req: Request) {
   try {
-    const currentUser = await getCurrentUser();
-    if (!currentUser) {
+    const user = await currentUser();
+    if (!user) {
       return NextResponse.error();
     }
     const { description, hnsCode, id, quantity, rate, unit } = await req.json();

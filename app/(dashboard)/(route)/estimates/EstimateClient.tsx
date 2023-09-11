@@ -280,7 +280,7 @@ const EstimateClient = () => {
       filteredDownloadData,
       fetchedCustomers
     );
-    console.log(newData);
+
     downloadToExcelEstimate(newData);
   }, [
     customersDownload,
@@ -327,7 +327,7 @@ const EstimateClient = () => {
                 outline
                 onClick={filteredDownloadInvoices}
               />
-              <Link href="/invoices/new" className="w-full">
+              <Link href="/estimates/new" className="w-full">
                 <Button className="h-8">
                   Create <PlusIcon className="font-bold pl-1" fontSize={10} />
                 </Button>

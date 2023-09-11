@@ -1,16 +1,17 @@
 import { prisma } from "@/libs/prismadb";
-import getCurrentUser from "@/actions/getCurrentUser";
+import { currentUser } from "@clerk/nextjs";
+
 import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
-    const currentUser = await getCurrentUser();
-    if (!currentUser) {
+    const user = await currentUser();
+    if (!user) {
       return NextResponse.error();
     }
     const { name, addressLine1, addressLine2, state, gstin } = await req.json();
     const cretedCustomer = await prisma.customer.create({
       data: {
-        userId: currentUser.id,
+        userId: user.id,
         name,
         addressLine1,
         addressLine2,
@@ -29,14 +30,14 @@ export async function POST(req: Request) {
 
 export async function GET() {
   try {
-    const currentUser = await getCurrentUser();
+    const user = await currentUser();
 
-    if (!currentUser) {
+    if (!user) {
       return NextResponse.error();
     }
     const fetchedCustomers = await prisma.customer.findMany({
       where: {
-        userId: currentUser.id,
+        userId: user.id,
       },
       orderBy: {
         name: "asc",
@@ -44,6 +45,7 @@ export async function GET() {
     });
     return NextResponse.json(fetchedCustomers);
   } catch (err) {
+    console.log(err);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -53,8 +55,8 @@ export async function GET() {
 
 export async function PUT(req: Request) {
   try {
-    const currentUser = await getCurrentUser();
-    if (!currentUser) {
+    const user = await currentUser();
+    if (!user) {
       return NextResponse.error();
     }
     const { name, addressLine1, addressLine2, state, gstin, id } =

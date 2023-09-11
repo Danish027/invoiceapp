@@ -1,11 +1,12 @@
 import { prisma } from "@/libs/prismadb";
-import getCurrentUser from "@/actions/getCurrentUser";
+
 import { NextResponse } from "next/server";
 import { NextApiResponse } from "next";
+import { currentUser } from "@clerk/nextjs";
 
 export async function POST(req: Request) {
   try {
-    const currentUser = await getCurrentUser();
+    const user = await currentUser();
     if (!currentUser) {
       return NextResponse.error();
     }
@@ -15,7 +16,7 @@ export async function POST(req: Request) {
     invoiceNumber = invoiceNumber + "";
     const createdInvoice = await prisma.invoice.create({
       data: {
-        userId: currentUser.id,
+        userId: user?.id,
         customerId: customerId,
         ...invoiceData,
         invoiceNumber: invoiceNumber,
@@ -29,7 +30,7 @@ export async function POST(req: Request) {
     invoiceNumber = invoiceNumber + 1;
     const updatedCompany = await prisma.company.update({
       where: {
-        userId: currentUser.id,
+        userId: user?.id,
       },
       data: {
         currentInvoiceNumber: invoiceNumber,
@@ -47,37 +48,37 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-  try{
-  const currentUser = await getCurrentUser();
+  try {
+    const user = await currentUser();
 
-  if (!currentUser) {
-    return NextResponse.error();
+    if (!user) {
+      return NextResponse.error();
+    }
+    const fetchedInvoice = await prisma.invoice.findMany({
+      where: {
+        userId: user.id,
+      },
+      include: {
+        items: true,
+      },
+      orderBy: {
+        id: "asc",
+      },
+    });
+    return NextResponse.json(fetchedInvoice);
+  } catch (err) {
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
-  const fetchedInvoice = await prisma.invoice.findMany({
-    where: {
-      userId: currentUser.id,
-    },
-    include: {
-      items: true,
-    },
-    orderBy: {
-      id: "asc",
-    },
-  });
-  return NextResponse.json(fetchedInvoice);
-}catch (err) {
-  return NextResponse.json(
-    { error: "Internal Server Error" },
-    { status: 500 }
-  );
-}
 }
 
 export async function PUT(req: Request) {
   try {
-    const currentUser = await getCurrentUser();
+    const user = await currentUser();
 
-    if (!currentUser) {
+    if (!user) {
       return NextResponse.error();
     }
     const { status, invoiceId } = await req.json();

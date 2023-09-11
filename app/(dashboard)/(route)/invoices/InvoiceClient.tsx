@@ -275,7 +275,7 @@ const InvoiceClient = () => {
       filteredDownloadData,
       fetchedCustomers
     );
-    console.log(newData);
+
     downloadToExcel(newData);
   }, [
     customersDownload,

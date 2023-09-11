@@ -1,11 +1,12 @@
 import { prisma } from "@/libs/prismadb";
-import getCurrentUser from "@/actions/getCurrentUser";
+import { currentUser } from "@clerk/nextjs";
+
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const currentUser = await getCurrentUser();
-    if (!currentUser) {
+    const user = await currentUser();
+    if (!user) {
       return NextResponse.error();
     }
     let { estimateData, items, customerId } = await req.json();
@@ -14,7 +15,7 @@ export async function POST(req: Request) {
     estimateNumber = estimateNumber + "";
     const createdInvoice = await prisma.estimate.create({
       data: {
-        userId: currentUser.id,
+        userId: user.id,
         companyId: customerId,
         ...estimateData,
         estimateNumber: estimateNumber,
@@ -28,7 +29,7 @@ export async function POST(req: Request) {
     estimateNumber = estimateNumber + 1;
     const updatedCompany = await prisma.company.update({
       where: {
-        userId: currentUser.id,
+        userId: user.id,
       },
       data: {
         currentEstimateNumber: estimateNumber,
@@ -46,14 +47,14 @@ export async function POST(req: Request) {
 
 export async function GET() {
   try {
-    const currentUser = await getCurrentUser();
+    const user = await currentUser();
 
-    if (!currentUser) {
+    if (!user) {
       return NextResponse.error();
     }
     const fetchedEstimates = await prisma.estimate.findMany({
       where: {
-        userId: currentUser.id,
+        userId: user.id,
       },
       include: {
         items: true,
@@ -73,9 +74,9 @@ export async function GET() {
 
 export async function PUT(req: Request) {
   try {
-    const currentUser = await getCurrentUser();
+    const user = await currentUser();
 
-    if (!currentUser) {
+    if (!user) {
       return NextResponse.error();
     }
     const { status, estimateId } = await req.json();

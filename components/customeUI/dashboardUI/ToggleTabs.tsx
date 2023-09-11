@@ -29,6 +29,7 @@ import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import { Separator } from "@/components/ui/separator";
 import useCompany from "@/actions/useCompany";
+import { useUser } from "@clerk/nextjs";
 
 const companyEmptyFields = {
   id: 0,
@@ -52,7 +53,8 @@ const companyEmptyFields = {
   currentEstimateNumber: 0,
   invoiceFormat: "classic",
 };
-export function ToggleTabs({ currentUser }: { currentUser?: SafeUser | null }) {
+export function ToggleTabs() {
+  const { user } = useUser();
   const { data: companyData, mutate } = useCompany();
   const [companyDetails, setCompanyDetails] = useState<Company | null>(null);
 
@@ -186,19 +188,17 @@ export function ToggleTabs({ currentUser }: { currentUser?: SafeUser | null }) {
           </CardHeader>
           <CardContent className="space-y-2">
             <div>
-              <Label className="ml-2">First Name</Label>
-              <Input disabled value={currentUser?.firstName} />
-            </div>
-            <div>
-              <Label className="ml-2">Last Name</Label>
-              <Input disabled value={currentUser?.lastName} />
+              <Label className="ml-2">Full Name</Label>
+              <Input disabled value={user?.fullName ? user?.fullName : "N/A"} />
             </div>
             <div>
               <Label className="ml-2">Email</Label>
-              <Input disabled value={currentUser?.email} />
-            </div>
-            <div>
-              <Label className="ml-2">Invoice Page Format</Label>
+              <Input
+                disabled
+                value={
+                  user?.fullName ? user?.emailAddresses[0]?.emailAddress : "N/A"
+                }
+              />
             </div>
           </CardContent>
           <CardFooter className="flex gap-3">
@@ -243,12 +243,7 @@ export function ToggleTabs({ currentUser }: { currentUser?: SafeUser | null }) {
               </div>
               <div>
                 <Label className="ml-2">Invoice Format</Label>
-                {/* <Input
-                  placeholder="e.g. Default"
-                  name="invoiceFormat"
-                  onChange={handleChange}
-                  value={companyDetails?.invoiceFormat}
-                /> */}
+
                 <Select
                   value={companyDetails?.invoiceFormat}
                   onValueChange={(e) => {
@@ -256,7 +251,6 @@ export function ToggleTabs({ currentUser }: { currentUser?: SafeUser | null }) {
                       ...prevState,
                       invoiceFormat: e,
                     }));
-                    // console.log(companyDetails);
                   }}
                 >
                   <SelectTrigger className="bg-background">

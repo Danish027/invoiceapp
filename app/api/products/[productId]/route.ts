@@ -1,5 +1,5 @@
-import getCurrentUser from "@/actions/getCurrentUser";
 import { prisma } from "@/libs/prismadb";
+import { currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 interface IParams {
   productId?: number;
@@ -10,10 +10,10 @@ export async function DELETE(
   { params }: { params: IParams }
 ) {
   try {
-    const currentUser = await getCurrentUser();
+    const user = await currentUser();
     const { productId } = params;
 
-    if (!currentUser) {
+    if (!user) {
       return NextResponse.error();
     }
 
