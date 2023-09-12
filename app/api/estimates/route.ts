@@ -37,7 +37,8 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(createdInvoice);
-  } catch (error) {
+  } catch (err) {
+    console.log(err);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -65,6 +66,7 @@ export async function GET() {
     });
     return NextResponse.json(fetchedEstimates);
   } catch (err) {
+    console.log(err);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -90,7 +92,8 @@ export async function PUT(req: Request) {
       },
     });
     return NextResponse.json(updatedDetails);
-  } catch (error) {
+  } catch (err) {
+    console.log(err);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   description: "...",
 };
 const Home = async () => {
+  const intialUser = await initialProfile();
   return <ClientDashboard />;
 };
 

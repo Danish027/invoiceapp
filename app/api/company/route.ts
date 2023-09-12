@@ -53,6 +53,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json(createdCompany);
   } catch (err) {
+    console.error(err);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -131,6 +132,7 @@ export async function PUT(req: Request) {
     });
     return NextResponse.json(updatedDetails);
   } catch (err) {
+    console.error(err);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

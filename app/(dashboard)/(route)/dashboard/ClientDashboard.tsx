@@ -304,6 +304,7 @@ const ClientDashboard = () => {
         if (fetchedCustomers !== undefined) {
           totalDataAnalytics.totalCustomers = fetchedCustomers.length;
         }
+        totalDataAnalytics.totalInvoices = invoices.length;
       }
     }
 
@@ -325,9 +326,10 @@ const ClientDashboard = () => {
     // Calculate total data analytics
     const totalDataAnalytics = calculateTotalDataAnalytics(analytics);
     setDataAnalytics(totalDataAnalytics);
+
     const topCustomersData = calculateTopCustomers(invoices, customers);
     setTopCustomers(topCustomersData);
-    console.log("Top Customers:", topCustomers);
+    // console.log("Top Customers:", topCustomers);
   }, [
     invoiceSummaries,
     calculateInvoiceAnalytics,

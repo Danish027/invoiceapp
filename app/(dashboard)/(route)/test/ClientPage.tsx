@@ -6,8 +6,8 @@ const ClientPage = ({
   email,
   userId,
 }: {
-  email: string | undefined;
-  userId: string | undefined;
+  email?: string | undefined;
+  userId?: string | undefined;
 }) => {
   const { isLoaded, isSignedIn, user } = useUser();
 

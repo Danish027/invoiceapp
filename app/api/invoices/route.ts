@@ -1,7 +1,7 @@
 import { prisma } from "@/libs/prismadb";
 
 import { NextResponse } from "next/server";
-import { NextApiResponse } from "next";
+
 import { currentUser } from "@clerk/nextjs";
 
 export async function POST(req: Request) {
@@ -67,6 +67,7 @@ export async function GET() {
     });
     return NextResponse.json(fetchedInvoice);
   } catch (err) {
+    console.log(err);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -92,7 +93,8 @@ export async function PUT(req: Request) {
       },
     });
     return NextResponse.json(updatedDetails);
-  } catch (error) {
+  } catch (err) {
+    console.log(err);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

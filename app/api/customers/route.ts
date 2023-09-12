@@ -21,6 +21,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json(cretedCustomer);
   } catch (err) {
+    console.error(err);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -34,6 +35,9 @@ export async function GET() {
 
     if (!user) {
       return NextResponse.error();
+    }
+    if (user.id === undefined) {
+      return null;
     }
     const fetchedCustomers = await prisma.customer.findMany({
       where: {
@@ -75,6 +79,7 @@ export async function PUT(req: Request) {
     });
     return NextResponse.json(updatedDetails);
   } catch (err) {
+    console.error(err);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

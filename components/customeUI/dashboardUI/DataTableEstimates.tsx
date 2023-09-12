@@ -90,11 +90,13 @@ const DataTableEstimates: React.FC<DataTableProps> = ({
                       {format(new Date(row.date), "dd-MM-yyyy")}
                     </Link>
                   </TableCell>
-                  <TableCell className="font-medium">
+                  <TableCell className="font-medium max-w-[200px]">
                     <Link href={`/estimates/${row.estimateNumber}`}>
-                      {matchingCustomer
-                        ? matchingCustomer.name.toUpperCase()
-                        : "Unknown Customer"}
+                      <p className="truncate">
+                        {matchingCustomer
+                          ? matchingCustomer.name.toUpperCase()
+                          : "Unknown Customer"}
+                      </p>
                     </Link>
                   </TableCell>
                   <TableCell className="font-medium">

@@ -25,6 +25,7 @@ export async function DELETE(
     });
     return NextResponse.json(updatedDetails);
   } catch (err) {
+    console.error(err);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -49,6 +50,7 @@ export async function GET(request: Request, { params }: { params: IParams }) {
     });
     return NextResponse.json(customerDetail);
   } catch (err) {
+    console.error(err);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
