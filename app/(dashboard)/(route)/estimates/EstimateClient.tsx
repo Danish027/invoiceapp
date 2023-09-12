@@ -108,7 +108,7 @@ const EstimateClient = () => {
         setValues={setCustomers}
       />
       <DropdownMenuCheckboxes
-        label="Payment Status"
+        label="Approval Status"
         values={payments}
         setValues={setPayments}
       />
@@ -208,7 +208,7 @@ const EstimateClient = () => {
         setValues={setCustomersDownload}
       />
       <DropdownMenuCheckboxes
-        label="Payment Status"
+        label="Approval Status"
         values={paymentsDownload}
         setValues={setPaymentsDownload}
       />

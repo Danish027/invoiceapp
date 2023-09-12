@@ -11,7 +11,7 @@ import { AlertDialog } from "@/components/customeUI/dashboardUI/AlertDialog";
 import Link from "next/link";
 import { PlusIcon } from "@radix-ui/react-icons";
 import useInvoices from "@/actions/useInvoices";
-import { Company, Customer, Invoice, checkFilter } from "@/schema/type";
+import { Customer, Invoice, checkFilter } from "@/schema/type";
 import axios from "axios";
 import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@radix-ui/react-toast";
@@ -39,14 +39,13 @@ const InvoiceClient = () => {
   //data fetching
   const { data: invoices, mutate: mutateInvoices } = useInvoices();
   const fetchedInvoice: Invoice[] = invoices;
-  const { data: customersData, mutate: mutateCustomers } = useCustomers();
+  const { data: customersData } = useCustomers();
   const fetchedCustomers: Customer[] = customersData;
-  const { data: fetchedCompany } = useCompany();
 
   //state declarations
   const [amount, setAmount] = useState(0);
   const [length, setLength] = useState(0);
-  const [company, setCompany] = useState<Company>(fetchedCompany);
+
   const [years, setYears] = useState<checkFilter[]>(yearsData);
   const [months, setMonths] = useState<checkFilter[]>(monthsData);
   const [payments, setPayments] = useState<checkFilter[]>(paymentsData);
@@ -339,7 +338,6 @@ const InvoiceClient = () => {
             </div>
             <div className="py-4">
               <DataTable
-                fetchedCompany={fetchedCompany}
                 fetchedCustomers={fetchedCustomers}
                 columns={columms}
                 data={filteredInvoices}

@@ -36,24 +36,19 @@ import {
   TableRow,
 } from "@/components/ui/custome-table";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface InvoicePdfProps {
   invoiceData: Invoice;
   customer: Customer[];
   company: Company;
-  onClick?: () => void;
-  show?: boolean;
-  invoiceNumber: string;
 }
 const ModernInvoiceTemplate: React.FC<InvoicePdfProps> = ({
   company,
   customer,
   invoiceData,
-  onClick,
-  show,
-  invoiceNumber,
 }) => {
-  // const [invoiceData, setInvoiceData] = useState<Invoice>();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [currentCustomer, setCurrentCustomer] = useState<Customer>();
 
@@ -132,9 +127,6 @@ const ModernInvoiceTemplate: React.FC<InvoicePdfProps> = ({
       </div>
     );
   }
-  if (show === false) {
-    return null;
-  }
 
   function formatInvoiceNumber(invoiceNumber: number) {
     if (invoiceNumber === undefined) {
@@ -167,13 +159,13 @@ const ModernInvoiceTemplate: React.FC<InvoicePdfProps> = ({
       <div className="w-screen h-screen overflow-y-scroll overflow-x-scroll">
         <div className="m-4 flex justify-between  ">
           <div className="w-32">
-            <Button variant="outline" onClick={onClick}>
+            <Button variant="outline" onClick={() => router.back()}>
               Back
             </Button>
           </div>
           <div className="flex">
-            <Button variant="outline" onClick={onClick}>
-              <Link href={`/invoices/${invoiceNumber}`}>Edit</Link>
+            <Button variant="outline">
+              <Link href={`/invoices/${invoiceData?.invoiceNumber}`}>Edit</Link>
             </Button>
             <div className="mx-4 w-32">
               <Button onClick={generatePDF}>Download</Button>

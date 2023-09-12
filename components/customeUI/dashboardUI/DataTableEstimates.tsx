@@ -123,8 +123,8 @@ const DataTableEstimates: React.FC<DataTableProps> = ({
                     )}
                   </TableCell>
                   <TableCell
-                    className="w-auto cursor-pointer flex"
-                    align="right"
+                    className="w-auto cursor-pointer flex justify-center"
+                    align="center"
                   >
                     <SideSheet
                       icon={BiEdit}
@@ -177,12 +177,11 @@ const DataTableEstimates: React.FC<DataTableProps> = ({
                         </div>
                       }
                     />
-                    <DisplayEstimate
-                      fetchedCompany={fetchedCompany}
-                      fetchedCustomers={fetchedCustomers}
-                      fetchedEstimate={row}
-                      invoiceNumber={row?.estimateNumber}
-                    />
+                    <Link href={`/estimates/download/${row?.estimateNumber}`}>
+                      <Button variant={"ghost"} className="p-2 mr-0">
+                        <BiDownload size={20} />
+                      </Button>
+                    </Link>
                   </TableCell>
                 </TableRow>
               );

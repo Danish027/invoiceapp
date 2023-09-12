@@ -29,31 +29,24 @@ const toWords = new ToWords({
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/custome-table";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface EstimatePdfProps {
   invoiceData: Estimate;
   customer: Customer[];
   company: Company;
-  onClick?: () => void;
-  show?: boolean;
-  invoiceNumber: string;
 }
 const ModernEstimateTemplate: React.FC<EstimatePdfProps> = ({
   company,
   customer,
   invoiceData,
-  onClick,
-  show,
-  invoiceNumber,
 }) => {
-  // const [invoiceData, setInvoiceData] = useState<Invoice>();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [currentCustomer, setCurrentCustomer] = useState<Customer>();
 
@@ -131,9 +124,6 @@ const ModernEstimateTemplate: React.FC<EstimatePdfProps> = ({
       </div>
     );
   }
-  if (show === false) {
-    return null;
-  }
 
   function formatInvoiceNumber(invoiceNumber: number) {
     if (invoiceNumber === undefined) {
@@ -166,13 +156,15 @@ const ModernEstimateTemplate: React.FC<EstimatePdfProps> = ({
       <div className="w-screen h-screen overflow-y-scroll overflow-x-scroll">
         <div className="m-4 flex justify-between  ">
           <div className="ml-4">
-            <Button variant="outline" onClick={onClick}>
+            <Button variant="outline" onClick={() => router.back()}>
               Back
             </Button>
           </div>
           <div className="flex">
-            <Button variant="outline" onClick={onClick}>
-              <Link href={`/estimates/${invoiceNumber}`}>Edit</Link>
+            <Button variant="outline">
+              <Link href={`/estimates/${invoiceData?.estimateNumber}`}>
+                Edit
+              </Link>
             </Button>
             <div className="mx-4 w-32">
               <Button onClick={generatePDF}>Download</Button>

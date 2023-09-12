@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { AnalyticsCard } from "./AnalyticsCard";
 import { DataAnalytics } from "@/schema/type";

@@ -14,6 +14,7 @@ export const LayoutClient: React.FC<LayoutClientProps> = ({ children }) => {
   const hideSidebarForPaths = [
     "/estimates/",
     "/invoices/",
+    "/download/",
     "/sign-up",
     "/sign-in",
     "/test",

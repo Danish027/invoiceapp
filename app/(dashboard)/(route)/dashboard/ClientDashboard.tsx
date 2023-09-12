@@ -320,8 +320,6 @@ const ClientDashboard = () => {
     // Calculate and log invoice analytics whenever invoiceSummaries change
     const sample = calculateInvoiceAnalytics(invoiceSummaries);
     const analytics = updatePreviousTotals(sample);
-    // console.log(analytics);
-    SetInvoiceAnalytics(analytics);
 
     // Calculate total data analytics
     const totalDataAnalytics = calculateTotalDataAnalytics(analytics);
@@ -329,7 +327,6 @@ const ClientDashboard = () => {
 
     const topCustomersData = calculateTopCustomers(invoices, customers);
     setTopCustomers(topCustomersData);
-    // console.log("Top Customers:", topCustomers);
   }, [
     invoiceSummaries,
     calculateInvoiceAnalytics,

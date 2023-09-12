@@ -17,26 +17,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BsDownload, BsFillEyeFill } from "react-icons/bs";
+
 import SideSheet from "./SideSheet";
-import { Company, Customer, Invoice } from "@/schema/type";
-import useCustomers from "@/actions/useCustomers";
+import { Customer, Invoice } from "@/schema/type";
+
 import { Button } from "@/components/ui/button";
-import { BiDownArrow, BiDownload, BiEdit } from "react-icons/bi";
+import { BiDownload, BiEdit } from "react-icons/bi";
 import EmptyState from "./EmptyState";
 import Link from "next/link";
-import ClassicInvoiceTemplate from "@/components/Formats/ClassicInvoiceTemplate";
-import DisplayInvoice from "@/components/Formats/DisplayInvoice";
-import useCompany from "@/actions/useCompany";
-import { AlertDialog } from "./AlertDialog";
-import axios from "axios";
 
 interface DataTableProps {
   columns: Array<string>;
   data: Array<Invoice>;
   onChange: (status: string, id: number) => void;
   fetchedCustomers: Customer[];
-  fetchedCompany: Company;
 }
 
 const DataTable: React.FC<DataTableProps> = ({
@@ -44,20 +38,15 @@ const DataTable: React.FC<DataTableProps> = ({
   data,
   onChange,
   fetchedCustomers,
-  fetchedCompany,
 }) => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    if (
-      fetchedCustomers !== undefined &&
-      fetchedCompany !== undefined &&
-      data !== undefined
-    ) {
+    if (fetchedCustomers !== undefined && data !== undefined) {
       setLoading(false);
     } else {
       setLoading(true);
     }
-  }, [data, fetchedCompany, fetchedCustomers]);
+  }, [data, fetchedCustomers]);
 
   return (
     <div className="border rounded-md h-[70vh] overflow-scroll relative">
@@ -203,12 +192,11 @@ const DataTable: React.FC<DataTableProps> = ({
                             </div>
                           }
                         />
-                        <DisplayInvoice
-                          fetchedCompany={fetchedCompany}
-                          fetchedCustomers={fetchedCustomers}
-                          fetchedInvoice={row}
-                          invoiceNumber={row?.invoiceNumber}
-                        />
+                        <Link href={`/invoices/download/${row?.invoiceNumber}`}>
+                          <Button variant={"ghost"} className="p-2 mr-0">
+                            <BiDownload size={20} />
+                          </Button>
+                        </Link>
                       </TableCell>
                     </TableRow>
                   );

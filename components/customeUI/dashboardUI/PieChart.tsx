@@ -1,3 +1,4 @@
+"use client";
 import React, { PureComponent } from "react";
 import { PieChart as Piechart, Pie, Tooltip } from "recharts";
 import { Card, CardDescription, CardHeader, CardTitle } from "../../ui/card";
@@ -14,9 +15,9 @@ export default class PieChart extends PureComponent {
         <div className="flex flex-col lg:flex-row justify-center items-center ">
           <div className=" w-full h-full ">
             <CardHeader>
-              <CardTitle>A demo of synchronized AreaCharts</CardTitle>
+              <CardTitle>Top Customers</CardTitle>
               <CardDescription>
-                Deploy your new project in one-click.
+                Visual representation of a List of Top 5 Customers
               </CardDescription>
             </CardHeader>
             <div className="grid lg:grid-cols-2 grid-cols-2 sm:mb-6 sm:ml-4 m-2">
