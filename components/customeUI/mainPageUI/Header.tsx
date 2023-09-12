@@ -21,7 +21,6 @@ const Header = ({
       <div className="px-4 py-1 text-foreground tracking-wide font-bold border-b border-border flex justify-between items-center">
         <div>{label}</div>
         <div className="flex gap-2 items-center text-center">
-          <div>email</div>
           <ModeToggle />
         </div>
       </div>
