@@ -18,10 +18,6 @@ import useInvoices from "@/actions/useInvoices";
 import useCustomers from "@/actions/useCustomers";
 import Loading from "./loading";
 
-interface ClientDashboardProps {
-  currentUser?: SafeUser | null;
-}
-
 export type InvoiceSummary = {
   invoiceNumber: string;
   amount: number;
@@ -39,12 +35,6 @@ export type InvoiceAnalytics = {
 };
 
 const ClientDashboard = () => {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   const { data: fetchedCompany } = useCompany();
   const { data: fetchedInvoices } = useInvoices();
   const { data: fetchedCustomers } = useCustomers();
@@ -304,8 +294,8 @@ const ClientDashboard = () => {
         if (fetchedCustomers !== undefined) {
           totalDataAnalytics.totalCustomers = fetchedCustomers.length;
         }
-        totalDataAnalytics.totalInvoices = invoices.length;
       }
+      totalDataAnalytics.totalInvoices = fetchedInvoices.length;
     }
 
     return totalDataAnalytics;
@@ -320,13 +310,15 @@ const ClientDashboard = () => {
     // Calculate and log invoice analytics whenever invoiceSummaries change
     const sample = calculateInvoiceAnalytics(invoiceSummaries);
     const analytics = updatePreviousTotals(sample);
+    // console.log(analytics);
+    SetInvoiceAnalytics(analytics);
 
     // Calculate total data analytics
     const totalDataAnalytics = calculateTotalDataAnalytics(analytics);
     setDataAnalytics(totalDataAnalytics);
-
     const topCustomersData = calculateTopCustomers(invoices, customers);
     setTopCustomers(topCustomersData);
+    console.log("Top Customers:", topCustomers);
   }, [
     invoiceSummaries,
     calculateInvoiceAnalytics,
@@ -339,26 +331,18 @@ const ClientDashboard = () => {
   if (loading === true) {
     return <Loading />;
   }
-
+  // console.log("Total Data Analytics:", dataAnalytics);
   return (
     <div className="min-h-screen">
-      {isClient ? (
-        <>
-          <Header dashboard label="Dashboard" />
-          <div className="p-4 flex flex-col gap-4">
-            <div className="pl-1 text-foreground text-xl sm:text-2xl tracking-wider">
-              {company?.name}
-            </div>
-            <AnalyticsSection dataAnalytics={dataAnalytics} />
-            <LineChart analytics={invoiceAnalytics} />
-            <PieChart analytics={topCustomers} />
-          </div>
-        </>
-      ) : (
-        <div>
-          <Loading />
+      <Header dashboard label="Dashboard" />
+      <div className="p-4 flex flex-col gap-4">
+        <div className="pl-1 text-foreground text-xl sm:text-2xl tracking-wider">
+          {company?.name}
         </div>
-      )}
+        <AnalyticsSection dataAnalytics={dataAnalytics} />
+        <LineChart analytics={invoiceAnalytics} />
+        <PieChart analytics={topCustomers} />
+      </div>
     </div>
   );
 };

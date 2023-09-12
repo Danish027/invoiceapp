@@ -1,4 +1,3 @@
-"use client";
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import {
@@ -27,6 +26,7 @@ export default class LineChart extends PureComponent {
   static propTypes = {
     analytics: PropTypes.array.isRequired,
   };
+
   render() {
     return (
       <div className="flex flex-col gap-4">
