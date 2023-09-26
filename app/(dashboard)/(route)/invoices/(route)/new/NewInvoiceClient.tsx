@@ -601,11 +601,11 @@ const NewInvoiceClient = () => {
               <TableRow>
                 <TableHead>Sl No.</TableHead>
                 <TableHead>Items</TableHead>
-                <TableHead>HSN Code</TableHead>
-                <TableHead>Quantity</TableHead>
-                <TableHead>Unit</TableHead>
-                <TableHead>Rate</TableHead>
-                <TableHead>Amount</TableHead>
+                <TableHead className="text-center">HSN Code</TableHead>
+                <TableHead className="text-center">Quantity</TableHead>
+                <TableHead className="text-center">Unit</TableHead>
+                <TableHead className="text-center">Rate</TableHead>
+                <TableHead className="text-center">Amount</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -635,6 +635,7 @@ const NewInvoiceClient = () => {
                   </TableCell>
                   <TableCell width={120}>
                     <Input
+                      className="min-w-[100px]"
                       placeholder="HSN Code "
                       name="hsncode"
                       value={items.hsncode}
@@ -653,7 +654,7 @@ const NewInvoiceClient = () => {
                   </TableCell>
                   <TableCell width={70}>
                     <Input
-                      className="text-center"
+                      className="min-w-[50px] text-center"
                       placeholder="Unit"
                       name="unit"
                       value={items.unit}
@@ -662,6 +663,7 @@ const NewInvoiceClient = () => {
                   </TableCell>
                   <TableCell width={101}>
                     <Input
+                      className="min-w-[100px]"
                       placeholder="Rate"
                       name="rate"
                       value={items.rate}
@@ -676,7 +678,11 @@ const NewInvoiceClient = () => {
                     />
                   </TableCell>
                   <TableCell width={120}>
-                    <Input value={items.amount.toFixed(2)} disabled />
+                    <Input
+                      className="min-w-[100px]"
+                      value={items.amount.toFixed(2)}
+                      disabled
+                    />
                   </TableCell>
                   <TableCell width={8}>
                     <Button
