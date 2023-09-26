@@ -40,7 +40,7 @@ export const DropdownMenuCheckboxes: React.FC<DropdownMenuCheckboxesProps> = ({
       <DropdownMenuTrigger asChild>
         <Button variant="outline">{label}</Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 max-h-56 overflow-scroll">
+      <DropdownMenuContent className="w-56 max-h-36 overflow-scroll">
         <DropdownMenuSeparator />
         {values?.map((value, index) => (
           <>

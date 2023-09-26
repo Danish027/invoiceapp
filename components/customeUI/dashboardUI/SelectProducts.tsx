@@ -175,7 +175,7 @@ const SelectProduts: React.FC<SelectProductsProps> = ({
               }
             />
           </CommandEmpty>
-          <CommandGroup>
+          <CommandGroup className="h-40 overflow-scroll">
             {dataList?.map((data) => (
               <CommandItem
                 key={data.id}
