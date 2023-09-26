@@ -40,7 +40,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { BiArrowBack, BiDownload } from "react-icons/bi";
+import { BiArrowBack } from "react-icons/bi";
 import { FaSave } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "@/components/ui/use-toast";
@@ -73,7 +73,6 @@ const emptyItemField = {
 const EditInvoiceClient = ({ invoiceNumber }: { invoiceNumber: string }) => {
   const { data: company, mutate: companyMutate } = useCompany();
   const companyData: Company = company;
-  const [loading, setLoading] = useState(false);
 
   const { mutate: invoiceMutate } = useInvoices();
   const { data: currentInvoice } = useInvoice(invoiceNumber);
@@ -489,25 +488,7 @@ const EditInvoiceClient = ({ invoiceNumber }: { invoiceNumber: string }) => {
       </div>
     </div>
   );
-  useEffect(() => {
-    if (
-      fetchedInvoice === undefined ||
-      customers === undefined ||
-      company === undefined
-    ) {
-      setLoading(true);
-    } else {
-      setLoading(false);
-    }
-  }, [company, customers, fetchedInvoice]);
-  if (loading === true) {
-    return (
-      <div className="flex w-full h-screen justify-center items-center flex-col">
-        <div className="text-xl">Data fetching in process</div>
-        <div>Please wait....</div>
-      </div>
-    );
-  }
+
   return (
     <div className="container mx-auto xl:px-30 max-w-6xl border-2 p-3">
       <div className="flex justify-between">
@@ -518,21 +499,14 @@ const EditInvoiceClient = ({ invoiceNumber }: { invoiceNumber: string }) => {
         </Link>
 
         <div className="text-center text-md sm:text-xl">TAX INVOICE</div>
-        <div className="flex justify-between gap-2">
-          <Button
-            className="h-8"
-            variant="default"
-            onClick={handleSubmit}
-            type="submit"
-          >
-            Save <FaSave className="ml-3" />
-          </Button>
-          <Link href={`/invoices/download/${invoiceNumber}`}>
-            <Button variant={"ghost"} className="p-2 mr-0">
-              <BiDownload size={20} />
-            </Button>
-          </Link>
-        </div>
+        <Button
+          className="h-8"
+          variant="default"
+          onClick={handleSubmit}
+          type="submit"
+        >
+          Save <FaSave className="ml-3" />
+        </Button>
       </div>
       <div className="flex items-center sm:justify-between p-3 flex-col md:flex-row gap-4 ">
         <div className="flex flex-col gap-6">
@@ -684,11 +658,11 @@ const EditInvoiceClient = ({ invoiceNumber }: { invoiceNumber: string }) => {
               <TableRow>
                 <TableHead>Sl No.</TableHead>
                 <TableHead>Items</TableHead>
-                <TableHead className="text-center">HSN Code</TableHead>
-                <TableHead className="text-center">Quantity</TableHead>
-                <TableHead className="text-center">Unit</TableHead>
-                <TableHead className="text-center">Rate</TableHead>
-                <TableHead className="text-center">Amount</TableHead>
+                <TableHead>HSN Code</TableHead>
+                <TableHead>Quantity</TableHead>
+                <TableHead>Unit</TableHead>
+                <TableHead>Rate</TableHead>
+                <TableHead>Amount</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -719,7 +693,6 @@ const EditInvoiceClient = ({ invoiceNumber }: { invoiceNumber: string }) => {
                   </TableCell>
                   <TableCell width={120}>
                     <Input
-                      className="min-w-[100px]"
                       placeholder="HSN Code "
                       name="hsncode"
                       value={item.hsncode}
@@ -738,7 +711,7 @@ const EditInvoiceClient = ({ invoiceNumber }: { invoiceNumber: string }) => {
                   </TableCell>
                   <TableCell width={70}>
                     <Input
-                      className="min-w-[50px] text-center"
+                      className="text-center"
                       placeholder="Unit"
                       name="unit"
                       value={item.unit}
@@ -747,7 +720,6 @@ const EditInvoiceClient = ({ invoiceNumber }: { invoiceNumber: string }) => {
                   </TableCell>
                   <TableCell width={101}>
                     <Input
-                      className="min-w-[100px]"
                       placeholder="Rate"
                       name="rate"
                       value={item.rate}
@@ -762,11 +734,7 @@ const EditInvoiceClient = ({ invoiceNumber }: { invoiceNumber: string }) => {
                     />
                   </TableCell>
                   <TableCell width={120}>
-                    <Input
-                      className="min-w-[100px]"
-                      value={item?.amount?.toFixed(2)}
-                      disabled
-                    />
+                    <Input value={item?.amount?.toFixed(2)} disabled />
                   </TableCell>
                   <TableCell width={8}>
                     <Button

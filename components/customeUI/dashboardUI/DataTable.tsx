@@ -85,7 +85,7 @@ const DataTable: React.FC<DataTableProps> = ({
               </TableBody>
             ) : (
               <TableBody>
-                {data?.slice(-30)?.map((row) => {
+                {data?.map((row) => {
                   const matchingCustomer = fetchedCustomers?.find(
                     (c) => c.id === row.customerId
                   );

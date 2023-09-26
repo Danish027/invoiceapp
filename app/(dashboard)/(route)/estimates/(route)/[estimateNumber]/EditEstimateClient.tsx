@@ -73,7 +73,6 @@ const emptyItemField = {
 };
 
 const EditestimateClient = ({ estimateNumber }: { estimateNumber: string }) => {
-  const [loading, setLoading] = useState(false);
   const { data: company, mutate: companyMutate } = useCompany();
   const companyData: Company = company;
 
@@ -491,27 +490,6 @@ const EditestimateClient = ({ estimateNumber }: { estimateNumber: string }) => {
     </div>
   );
 
-  useEffect(() => {
-    if (
-      fetchedEstimate === undefined ||
-      customers === undefined ||
-      company === undefined
-    ) {
-      setLoading(true);
-    } else {
-      setLoading(false);
-    }
-  }, [company, customers, fetchedEstimate]);
-
-  if (loading === true) {
-    return (
-      <div className="flex w-full h-screen justify-center items-center flex-col">
-        <div className="text-xl">Data fetching in process</div>
-        <div>Please wait....</div>
-      </div>
-    );
-  }
-
   return (
     <div className="container mx-auto xl:px-30 max-w-6xl border-2 p-3">
       <div className="flex justify-between">
@@ -682,11 +660,11 @@ const EditestimateClient = ({ estimateNumber }: { estimateNumber: string }) => {
               <TableRow>
                 <TableHead>Sl No.</TableHead>
                 <TableHead>Items</TableHead>
-                <TableHead className="text-center">HSN Code</TableHead>
-                <TableHead className="text-center">Quantity</TableHead>
-                <TableHead className="text-center">Unit</TableHead>
-                <TableHead className="text-center">Rate</TableHead>
-                <TableHead className="text-center">Amount</TableHead>
+                <TableHead>HSN Code</TableHead>
+                <TableHead>Quantity</TableHead>
+                <TableHead>Unit</TableHead>
+                <TableHead>Rate</TableHead>
+                <TableHead>Amount</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -717,7 +695,6 @@ const EditestimateClient = ({ estimateNumber }: { estimateNumber: string }) => {
                   </TableCell>
                   <TableCell width={120}>
                     <Input
-                      className="min-w-[100px]"
                       placeholder="HSN Code "
                       name="hsncode"
                       value={item.hsncode}
@@ -736,7 +713,7 @@ const EditestimateClient = ({ estimateNumber }: { estimateNumber: string }) => {
                   </TableCell>
                   <TableCell width={70}>
                     <Input
-                      className="min-w-[50px] text-center"
+                      className="text-center"
                       placeholder="Unit"
                       name="unit"
                       value={item.unit}
@@ -745,7 +722,6 @@ const EditestimateClient = ({ estimateNumber }: { estimateNumber: string }) => {
                   </TableCell>
                   <TableCell width={101}>
                     <Input
-                      className="min-w-[100px]"
                       placeholder="Rate"
                       name="rate"
                       value={item.rate}
@@ -760,11 +736,7 @@ const EditestimateClient = ({ estimateNumber }: { estimateNumber: string }) => {
                     />
                   </TableCell>
                   <TableCell width={120}>
-                    <Input
-                      className="min-w-[100px]"
-                      value={item?.amount?.toFixed(2)}
-                      disabled
-                    />
+                    <Input value={item?.amount?.toFixed(2)} disabled />
                   </TableCell>
                   <TableCell width={8}>
                     <Button

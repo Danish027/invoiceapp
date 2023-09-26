@@ -17,12 +17,6 @@ export const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
   growth,
   symbol,
 }) => {
-  const formattedAmount =
-    value &&
-    value?.toLocaleString("en-IN", {
-      style: "currency",
-      currency: "INR",
-    });
   return (
     <div>
       <Card className="">
@@ -32,7 +26,8 @@ export const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
         </CardHeader>
         <CardContent className=" pb-4">
           <div className="text-2xl font-bold">
-            {symbol ? `${formattedAmount}` : `${value?.toFixed(2)}`}
+            {symbol ? "₹" : ""}
+            {value?.toFixed(2)}
           </div>
           <p className="text-xs text-muted-foreground">
             {growth && growth >= 0 ? (

@@ -301,7 +301,7 @@ const InvoiceClient = () => {
               <div className="flex justify-between items-center flex-col-reverse gap-4 sm:flex-row w-full ">
                 <Input
                   className="w-full sm:w-2/3"
-                  placeholder="Search Vehicle Number or Invoice Number...."
+                  placeholder="Search Customer, Items or Invoice...."
                   value={searchInput} // Bind value to the search input state
                   onChange={handleSearchInputChange}
                 />

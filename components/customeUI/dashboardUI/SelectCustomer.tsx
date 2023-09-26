@@ -170,7 +170,7 @@ export const CustomerSelect: React.FC<CustomerSelectProps> = ({
               }
             />
           </CommandEmpty>
-          <CommandGroup className="h-40 overflow-scroll">
+          <CommandGroup>
             {customerList?.map((customer) => (
               <CommandItem
                 key={customer.id}

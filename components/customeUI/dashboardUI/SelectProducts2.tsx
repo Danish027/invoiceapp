@@ -184,11 +184,17 @@ const SelectProduts: React.FC<SelectProductsProps> = ({
               }
             />
           </CommandEmpty>
-          <CommandGroup className="h-40 overflow-scroll">
+          <CommandGroup>
             {dataList?.map((data) => (
               <CommandItem
                 key={data.id}
                 onSelect={(currentValue) => {
+                  // setValue(
+                  //   currentValue.toUpperCase() === value.toUpperCase()
+                  //     ? ""
+                  //     : currentValue.toUpperCase()
+                  // );
+
                   onSelect(currentValue, data.id, index);
                   setOpen(false);
                 }}

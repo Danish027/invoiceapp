@@ -119,7 +119,6 @@ const ModernInvoiceTemplate: React.FC<InvoicePdfProps> = ({
   }
 
   const selectedPart = formatDateString(newDate?.slice(0, 10));
-
   if (loading === true) {
     return (
       <div className="flex w-full h-screen justify-center items-center flex-col">
