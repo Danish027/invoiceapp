@@ -353,7 +353,7 @@ const InvoiceClient = () => {
                 data={
                   filtersApplied
                     ? filteredInvoices
-                    : filteredInvoices.slice(-30)
+                    : filteredInvoices?.slice(-30)
                 }
                 onChange={handlePaymentChange}
               />
