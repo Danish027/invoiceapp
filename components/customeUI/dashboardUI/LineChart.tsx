@@ -58,7 +58,7 @@ export default class LineChart extends PureComponent {
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip />
-                <Legend />
+                {/* <Legend /> */}
                 <Line
                   type="monotone"
                   dataKey="Invoices"
@@ -103,7 +103,7 @@ export default class LineChart extends PureComponent {
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip />
-                <Legend />
+                {/* <Legend /> */}
                 <Line
                   type="monotone"
                   dataKey="Total-Amount"

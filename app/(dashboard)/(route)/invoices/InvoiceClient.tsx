@@ -45,7 +45,7 @@ const InvoiceClient = () => {
   //state declarations
   const [amount, setAmount] = useState(0);
   const [length, setLength] = useState(0);
-
+  const [filtersApplied, setFiltersApplied] = useState(false);
   const [years, setYears] = useState<checkFilter[]>(yearsData);
   const [months, setMonths] = useState<checkFilter[]>(monthsData);
   const [payments, setPayments] = useState<checkFilter[]>(paymentsData);
@@ -169,6 +169,15 @@ const InvoiceClient = () => {
         filteredAmount += invoice.taxableAmount;
       }
     });
+
+    const filtersAreApplied =
+      selectedCustomers.length > 0 ||
+      selectedYears.length > 0 ||
+      selectedMonthsLabels.length > 0 ||
+      selectedPayments.length > 0 ||
+      searchInput !== "";
+
+    setFiltersApplied(filtersAreApplied);
 
     const filteredLength = filteredData?.length;
 
@@ -314,7 +323,8 @@ const InvoiceClient = () => {
                     title="Filter Dialog"
                     buttonSecondaryLabel="Cancel"
                     icon={BiFilterAlt}
-                    outline
+                    outline={!filtersApplied}
+                    active={filtersApplied}
                   />
                   <AlertDialog
                     body={downloadBody}
@@ -340,7 +350,11 @@ const InvoiceClient = () => {
               <DataTable
                 fetchedCustomers={fetchedCustomers}
                 columns={columms}
-                data={filteredInvoices}
+                data={
+                  filtersApplied
+                    ? filteredInvoices
+                    : filteredInvoices.slice(-30)
+                }
                 onChange={handlePaymentChange}
               />
             </div>

@@ -9,10 +9,7 @@ const page = async () => {
 
   return (
     <div>
-      <ClientPage
-        email={user?.id}
-        userId={user?.emailAddresses[0]?.emailAddress}
-      />
+      <ClientPage />
     </div>
   );
 };

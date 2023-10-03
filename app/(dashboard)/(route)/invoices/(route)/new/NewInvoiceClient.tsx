@@ -98,6 +98,7 @@ const NewInvoiceClient = () => {
   const productsList: Array<Products> = products;
   const [items, setItems] = useState<Item>([emptyItemField]);
   const [taxableAmount, setTaxableAmount] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [discount, setDiscount] = useState<ExtraFields>({
     label: "Discount",
     value: 0,
@@ -304,6 +305,7 @@ const NewInvoiceClient = () => {
 
   const handleSubmit = useCallback(async () => {
     try {
+      setLoading(true);
       await axios.post("/api/invoices", {
         invoiceData: invoiceData,
         customerId: invoiceCustomer,
@@ -314,6 +316,7 @@ const NewInvoiceClient = () => {
       });
       invoiceMutate();
       companyMutate();
+      setLoading(false);
       const { invoiceType } = invoiceData;
       setInvoiceData(emptyInvoiceField);
       setInvoiceData((prevState: any) => ({
@@ -451,6 +454,7 @@ const NewInvoiceClient = () => {
           variant="default"
           onClick={handleSubmit}
           type="submit"
+          disabled={loading}
         >
           Save <FaSave className="ml-3" />
         </Button>

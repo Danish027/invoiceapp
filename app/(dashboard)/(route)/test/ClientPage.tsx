@@ -1,24 +1,21 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
+import { prisma } from "@/libs/prismadb";
+
 import React from "react";
 
-const ClientPage = ({
-  email,
-  userId,
-}: {
-  email?: string | undefined;
-  userId?: string | undefined;
-}) => {
-  const { isLoaded, isSignedIn, user } = useUser();
-
-  const clientEmail = user?.emailAddresses[0]?.emailAddress;
-
-  return (
-    <div>
-      <div>Server Email : {email && <>{email}</>}</div>
-      <div>Client Email : {clientEmail}</div>
-    </div>
-  );
+const ClientPage = () => {
+  const handleDelete = async () => {
+    try {
+      await prisma.invoice.delete({
+        where: {
+          id: 384,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  return <button onClick={handleDelete}>Delete</button>;
 };
 
 export default ClientPage;

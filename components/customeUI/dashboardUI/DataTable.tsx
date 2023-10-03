@@ -1,6 +1,6 @@
 "use client";
 import { format } from "date-fns";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Table,
   TableBody,
@@ -40,6 +40,14 @@ const DataTable: React.FC<DataTableProps> = ({
   fetchedCustomers,
 }) => {
   const [loading, setLoading] = useState(true);
+  const tableRef = useRef<HTMLTableSectionElement>(null);
+
+  useEffect(() => {
+    // Scroll to the bottom of the table when the component mounts
+    if (tableRef.current) {
+      tableRef.current.scrollTop = tableRef.current.scrollHeight;
+    }
+  }, [data]);
   useEffect(() => {
     if (fetchedCustomers !== undefined && data !== undefined) {
       setLoading(false);
@@ -84,8 +92,8 @@ const DataTable: React.FC<DataTableProps> = ({
                 />
               </TableBody>
             ) : (
-              <TableBody>
-                {data?.slice(-30)?.map((row) => {
+              <TableBody ref={tableRef}>
+                {data?.map((row) => {
                   const matchingCustomer = fetchedCustomers?.find(
                     (c) => c.id === row.customerId
                   );

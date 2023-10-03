@@ -1,24 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import { signOut } from "next-auth/react";
+
 import Link from "next/link";
 import Logo from "../customeUI/mainPageUI/Logo";
-import { Company, SafeUser } from "@/schema/type";
+import { SafeUser } from "@/schema/type";
 
-import { BsExclamationLg } from "react-icons/bs";
-import {
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-  UserProfile,
-} from "@clerk/nextjs";
-import { Button } from "./button";
 import { Skeleton } from "./skeleton";
 
 const Sidebar = ({
-  currentUser,
   showSidebar,
 }: {
   currentUser?: SafeUser | null;
