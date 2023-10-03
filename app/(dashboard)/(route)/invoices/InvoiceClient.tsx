@@ -171,10 +171,10 @@ const InvoiceClient = () => {
     });
 
     const filtersAreApplied =
-      selectedCustomers.length > 0 ||
-      selectedYears.length > 0 ||
-      selectedMonthsLabels.length > 0 ||
-      selectedPayments.length > 0 ||
+      selectedCustomers?.length > 0 ||
+      selectedYears?.length > 0 ||
+      selectedMonthsLabels?.length > 0 ||
+      selectedPayments?.length > 0 ||
       searchInput !== "";
 
     setFiltersApplied(filtersAreApplied);
