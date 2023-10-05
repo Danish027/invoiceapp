@@ -298,8 +298,8 @@ const ClientDashboard = () => {
       totalDataAnalytics.totalInvoices = fetchedInvoices.length;
     }
 
-    console.log("Output:");
-    console.log(totalDataAnalytics);
+    // console.log("Output:");
+    // console.log(totalDataAnalytics);
     return totalDataAnalytics;
   };
 
