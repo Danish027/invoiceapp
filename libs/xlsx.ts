@@ -7,6 +7,7 @@ type Invoicedata = {
   invoiceNumber: string;
   date: string;
   customerName: string;
+  gstin: string;
   vehicleNumber: string;
   amount: number;
   paymentStatus: string;
@@ -31,6 +32,7 @@ export function downloadToExcel(invoices: Invoicedata[]) {
         { label: "Invoice No.", value: "invoiceNumber" },
         { label: "Date", value: "date" },
         { label: "Customer", value: "customerName" },
+        { label: "GSTIN", value: "gstin" },
         { label: "Vehicle Number", value: "vehicleNumber" },
         { label: "Amount", value: "amount" },
         { label: "Payment Status", value: "paymentStatus" },

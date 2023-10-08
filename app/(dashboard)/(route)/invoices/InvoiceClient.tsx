@@ -223,7 +223,6 @@ const InvoiceClient = () => {
   );
   const generateNewDataArray = (invoices: Invoice[], customers: Customer[]) => {
     let key = 1; // Initialize key
-
     const newDataArray = invoices?.map((invoice) => {
       const customer = customers?.find((c) => c.id === invoice?.customerId);
       const invoiceDate = new Date(invoice.date);
@@ -233,6 +232,7 @@ const InvoiceClient = () => {
         invoiceNumber: invoice?.invoiceNumber,
         date: formattedDate, // Format date as string
         customerName: customer ? customer.name : "N/A", // Get customer name based on customerId
+        gstin: customer ? customer.gstin : "N/A",
         vehicleNumber: invoice?.vehicleNumber ? invoice?.vehicleNumber : "N/A",
         amount: invoice?.taxableAmount || 0,
         paymentStatus: invoice?.paymentStatus,
